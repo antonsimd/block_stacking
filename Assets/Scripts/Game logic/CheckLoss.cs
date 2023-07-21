@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckLoss : MonoBehaviour
+public class CheckLoss
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static bool checkLoss(Box boxUpper, Box boxLower) {
+        var boxLowerCollider = boxLower.GetComponent<EdgeCollider2D>();
+        var boxLowerRight = boxLowerCollider.size;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return false;
     }
 }
