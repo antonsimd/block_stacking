@@ -10,7 +10,8 @@ public class Box : MonoBehaviour
     private Rigidbody2D rigidbodyComponent;
     private int direction;
     private Vector2 movementVector;
-    
+    public static Box instance;
+
     // Start is called before the first frame update
     private void Start() {
         rigidbodyComponent = GetComponent<Rigidbody2D>();
@@ -22,11 +23,9 @@ public class Box : MonoBehaviour
         movementVector = new Vector2(SPEED, 0);
     }
 
-    // Called every frame
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            direction = 0;
-        }
+    // stops the box's movement
+    public void stopMovement() {
+        direction = 0;
     }
 
     // called 100 times a second
@@ -34,6 +33,7 @@ public class Box : MonoBehaviour
         rigidbodyComponent.velocity = movementVector * direction;
     }
 
+    // on collision with a wall reverse direction
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "MainCamera") {
             direction *= -1;
