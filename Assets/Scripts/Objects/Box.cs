@@ -8,6 +8,7 @@ public class Box : MonoBehaviour
     const int SPEED = 2;
 
     private Rigidbody2D rigidbodyComponent;
+    private BoxCollider2D boxCollider;
     private int direction;
     private Vector2 movementVector;
     public static Box instance;
@@ -15,6 +16,7 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     private void Start() {
         rigidbodyComponent = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
 
         // random direction
         System.Random random = new System.Random();
@@ -38,5 +40,15 @@ public class Box : MonoBehaviour
         if (collision.tag == "MainCamera") {
             direction *= -1;
         }
+    }
+
+    // get Vector3 with the centre of the box
+    public Vector3 getCentre() {
+        return transform.TransformPoint(boxCollider.offset);
+    }
+
+    // get Vector2 with the dimentions of the box
+    public Vector2 getSize() {
+        return boxCollider.size;
     }
 }
