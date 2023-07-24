@@ -6,26 +6,31 @@ using TMPro;
 public class Score : MonoBehaviour
 {
 
-    public static Score instance;
+    public static Score currentScore;
     public TextMeshProUGUI scoreText;
     
     private int score = 0;
 
     private void Awake() {
-        instance = this;
+        currentScore = this;
     }
 
     // Start is called before the first frame update
     private void Start() {
-        setScore();
+        displayScore();
     }
 
-    private void setScore() {
+    // update the score on the screen
+    private void displayScore() {
         scoreText.text = "Score: " + score.ToString();
     }
 
     public void addPoint() {
         score ++;
-        setScore();
+        displayScore();
+    }
+
+    public int getScore() {
+        return score;
     }
 }
