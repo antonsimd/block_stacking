@@ -20,9 +20,11 @@ public class MainBody : MonoBehaviour
     private GameObject box1Object;
     private GameObject box2Object;
     private GameObject box3Object;
+    private GameObject box4Object;
     private Box box1;
     private Box box2;
     private Box box3;
+    private Box box4;
     private GameObject ground;
     
     // draw the box before rendering the first frame, avoids lag
@@ -48,25 +50,41 @@ public class MainBody : MonoBehaviour
         } else if (box3 == null) {
             box3Object = Instantiate(boxPrefab, position, Quaternion.identity);
             box3 = box3Object.GetComponent<Box>();
-        } else {
+        } else if (box4 == null) {
+            box1.moveBox(Vector3.down);
+            box2.moveBox(Vector3.down);
+            box3.moveBox(Vector3.down);
+            ground.GetComponent<Ground>().moveGround(Vector3.down);
+
+            box4Object = Instantiate(boxPrefab, position, Quaternion.identity);
+            box4 = box4Object.GetComponent<Box>();
+            Destroy(ground, 1);
+        } 
+        
+        else {
             var tempObject = box1Object;
             var temp = box1;
             box1 = box2;
             box1Object = box2Object;
             box2 = box3;
             box2Object = box3Object;
+            box3 = box4;
+            box3Object = box4Object;
 
             temp.moveBox(Vector3.down);
             box1.moveBox(Vector3.down);
             box2.moveBox(Vector3.down);
-            box3Object = Instantiate(boxPrefab, position, Quaternion.identity);
-            box3 = box3Object.GetComponent<Box>();
-            Destroy(tempObject);
+            box3.moveBox(Vector3.down);
+            box4Object = Instantiate(boxPrefab, position, Quaternion.identity);
+            box4 = box4Object.GetComponent<Box>();
+            Destroy(tempObject, 1);
         }
     }
 
     private void spaceKeyPressed() {
-        if (box3 != null) {
+        if (box4 != null) {
+            box4.stopMovement();
+        } else if (box3 != null) {
             box3.stopMovement();
         } else if (box2 != null) {
             box2.stopMovement();
