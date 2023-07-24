@@ -16,41 +16,70 @@ public class MainBody : MonoBehaviour
     private Vector2 boxInitialPosition = new Vector2(0, INITIAL_BOX_Y_OFFSET);
     private Vector2 groundPostition = new Vector2(0, GROUND_Y_OFFSET);
     // instances of game objects
+
+    private GameObject box1Object;
+    private GameObject box2Object;
+    private GameObject box3Object;
     private Box box1;
     private Box box2;
+    private Box box3;
     private GameObject ground;
     
     // draw the box before rendering the first frame, avoids lag
     private void Awake() {
-        box1 = Instantiate(boxPrefab, boxInitialPosition, Quaternion.identity).GetComponent<Box>();
+        box1Object = Instantiate(boxPrefab, boxInitialPosition, Quaternion.identity);
+        box1 = box1Object.GetComponent<Box>();
         ground = Instantiate(groundPrefab, groundPostition, Quaternion.identity);
     }
 
     // Update is called once per frame
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
-            if (box2 != null) {
-                box2.stopMovement();
-            } else {
-                box1.stopMovement();
-            }
-            int score = Score.currentScore.getScore();
-            if (score == 0) {
-                Score.currentScore.addPoint();
-                int offset = (int)box1.getSize().y + INITIAL_BOX_Y_OFFSET;
-                newBox(offset);
-            } else {
-                if (!CheckLoss.checkLoss(box2, box1)) {
-                    Score.currentScore.addPoint();
-                    int offset = (score + 1) * (int)box1.getSize().y + INITIAL_BOX_Y_OFFSET;
-                    newBox(offset);
-                }
-            }
+            spaceKeyPressed();
         }
     }
 
     private void newBox(int y) {
         Vector2 position = new Vector2(0, y);
-        box2 = Instantiate(boxPrefab, position, Quaternion.identity).GetComponent<Box>();
+
+        if (box2 == null) {
+            box2Object = Instantiate(boxPrefab, position, Quaternion.identity);
+            box2 = box2Object.GetComponent<Box>();
+        } else if (box3 == null) {
+            box3Object = Instantiate(boxPrefab, position, Quaternion.identity);
+            box3 = box3Object.GetComponent<Box>();
+        } else {
+            var tempObject = box1Object;
+            var temp = box1;
+            box1 = box2;
+            box1Object = box2Object;
+            box2 = box3;
+            box2Object = box3Object;
+
+            temp.moveBox(Vector3.down);
+            box1.moveBox(Vector3.down);
+            box2.moveBox(Vector3.down);
+            box3Object = Instantiate(boxPrefab, position, Quaternion.identity);
+            box3 = box3Object.GetComponent<Box>();
+            Destroy(tempObject);
+        }
+    }
+
+    private void spaceKeyPressed() {
+        if (box3 != null) {
+            box3.stopMovement();
+        } else if (box2 != null) {
+            box2.stopMovement();
+        } else {
+            box1.stopMovement();
+        }
+
+        int score = Score.currentScore.getScore();
+
+        if(!CheckLoss.checkLoss(box3, box2)) {
+            Score.currentScore.addPoint();
+            int offset = score == 0 ? (int)box1.getSize().y + INITIAL_BOX_Y_OFFSET : 2 * (int)box1.getSize().y + INITIAL_BOX_Y_OFFSET;
+            newBox(offset);
+        }
     }
 }
