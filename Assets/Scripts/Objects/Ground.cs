@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
-    private Vector3 movementVector = Vector3.zero;
-    private Vector3 velocity = Vector3.zero;
-    private Vector3 initialPosition;
-    private Vector3 targetPosition;
-    private float time = 0.05f;
-    private BoxCollider2D boxCollider;
+    Vector3 movementVector = Vector3.zero;
+    Vector3 velocity = Vector3.zero;
+    Vector3 initialPosition;
+    Vector3 targetPosition;
+    float time = 0.05f;
+    BoxCollider2D boxCollider;
 
     // FIX IF NEEDED
-    private int cameraBottom = -5;
+    int cameraBottom = -5;
 
     public static Ground createGround(GameObject prefab, Vector2 position) {
         var newObject = Instantiate(prefab, position, Quaternion.identity);
         return newObject.GetComponent<Ground>();
     }
 
-    private void destroyGround() {
+    void destroyGround() {
         Destroy(gameObject);
     }
 
     // Start is called before the first frame update
-    private void Start() {
+    void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
-    private void FixedUpdate() {
+    void FixedUpdate() {
         if (transform.position.y < cameraBottom) {
             destroyGround();
         }

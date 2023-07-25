@@ -6,12 +6,12 @@ public class CameraCollisionBox : MonoBehaviour
 {
 
     Camera cam;
-    private void Awake() {
+    void Awake() {
         cam = Camera.main;
         addCollider();
     }
 
-    private void addCollider() {
+    void addCollider() {
         if (Camera.main == null) {
             Debug.LogError("No camera found");
         }

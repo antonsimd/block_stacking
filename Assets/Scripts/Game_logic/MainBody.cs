@@ -5,41 +5,41 @@ using UnityEngine;
 public class MainBody : MonoBehaviour
 {
     // CONSTANTS
-    private const int INITIAL_BOX_Y_OFFSET = -4;
-    private const int GROUND_Y_OFFSET = -5;
-    private const int BOXES_MOVE_DOWN = 2;
-    private const float BOX_SPREAD = 0.01f;
+    const int INITIAL_BOX_Y_OFFSET = -4;
+    const int GROUND_Y_OFFSET = -5;
+    const int BOXES_MOVE_DOWN = 2;
+    const float BOX_SPREAD = 0.01f;
     
     // PUBLIC - prefabs
     public GameObject boxPrefab;
     public GameObject groundPrefab;
 
     // box position offsets
-    private Vector2 boxInitialPosition = new Vector2(0, INITIAL_BOX_Y_OFFSET);
-    private Vector2 groundPostition = new Vector2(0, GROUND_Y_OFFSET);
-    private Vector3 initialBoxScale = new Vector3(2.5f, 1f, 1f);
+    Vector2 boxInitialPosition = new Vector2(0, INITIAL_BOX_Y_OFFSET);
+    Vector2 groundPostition = new Vector2(0, GROUND_Y_OFFSET);
+    Vector3 initialBoxScale = new Vector3(2.5f, 1f, 1f);
     // instances of game objects
 
-    private Box box1;
-    private Box box2;
-    private Box box3;
-    private Box box4;
-    private Ground ground;
+    Box box1;
+    Box box2;
+    Box box3;
+    Box box4;
+    Ground ground;
     
     // draw the box before rendering the first frame, avoids lag
-    private void Awake() {
+    void Awake() {
         box1 = Box.createBox(boxPrefab, boxInitialPosition, initialBoxScale);
         ground = Ground.createGround(groundPrefab, groundPostition);
     }
 
     // Update is called once per frame
-    private void Update() {
+    void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             spaceKeyPressed();
         }
     }
 
-    private void newBox(float y) {
+    void newBox(float y) {
         Vector2 position = new Vector2(0, y);
 
         if (box2 == null) {
@@ -66,7 +66,7 @@ public class MainBody : MonoBehaviour
         }
     }
 
-    private void spaceKeyPressed() {
+    void spaceKeyPressed() {
         if (box4 != null) {
             box4.stopMovement();
         } else if (box3 != null) {
@@ -96,7 +96,7 @@ public class MainBody : MonoBehaviour
         }
     }
 
-    private void continueGame(Box boxUpper, Box boxLower) {
+    void continueGame(Box boxUpper, Box boxLower) {
         int score = Score.currentScore.getScore();
         Score.currentScore.addPoint();
 
