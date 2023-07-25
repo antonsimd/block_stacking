@@ -9,19 +9,19 @@ public class Score : MonoBehaviour
     public static Score currentScore;
     public TextMeshProUGUI scoreText;
     
-    private int score = 0;
+    int score = 0;
 
-    private void Awake() {
+    void Awake() {
         currentScore = this;
     }
 
     // Start is called before the first frame update
-    private void Start() {
+    void Start() {
         displayScore();
     }
 
     // update the score on the screen
-    private void displayScore() {
+    void displayScore() {
         scoreText.text = "Score: " + score.ToString();
     }
 

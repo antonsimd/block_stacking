@@ -7,18 +7,18 @@ public class Box : MonoBehaviour
 {
     const int SPEED = 2;
 
-    private Rigidbody2D rigidbodyComponent;
-    private int direction;
-    private Vector2 movementVectorH;
-    private Vector3 movementVectorV = Vector3.zero;
-    private Vector3 initialPosition;
-    private Vector3 targetPosition;
-    private Vector3 velocity = Vector3.zero;
-    private float time = 0.05f;
-    private int boxHeightFromCentre;
+    Rigidbody2D rigidbodyComponent;
+    int direction;
+    Vector2 movementVectorH;
+    Vector3 movementVectorV = Vector3.zero;
+    Vector3 initialPosition;
+    Vector3 targetPosition;
+    Vector3 velocity = Vector3.zero;
+    float time = 0.05f;
+    int boxHeightFromCentre;
 
     // FIX IF NEEDED
-    private int cameraBottom = -5;
+    int cameraBottom = -5;
 
     public static Box createBox(GameObject prefab, Vector2 position, Vector3 scale) {
         var newObject = Instantiate(prefab, position, Quaternion.identity);
@@ -31,7 +31,7 @@ public class Box : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    private void Start() {
+    void Start() {
         rigidbodyComponent = GetComponent<Rigidbody2D>();
         boxHeightFromCentre = (int)getSize().y / 2;
 
@@ -41,13 +41,8 @@ public class Box : MonoBehaviour
         movementVectorH = new Vector2(SPEED, 0);
     }
 
-    // stops the box's movement
-    public void stopMovement() {
-        this.direction = 0;
-    }
-
     // called 100 times a second
-    private void FixedUpdate() {
+    void FixedUpdate() {
         int top = (int)getCentre().y + boxHeightFromCentre;
         if (top <= cameraBottom) {
            destroyBox();
@@ -65,10 +60,15 @@ public class Box : MonoBehaviour
     }
 
     // on collision with a wall reverse direction
-    private void OnTriggerEnter2D(Collider2D collision) {
+    void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "MainCamera") {
             direction *= -1;
         }
+    }
+
+    // stops the box's movement
+    public void stopMovement() {
+        this.direction = 0;
     }
 
     // get Vector3 with the centre of the box
