@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class CameraCollisionBox : MonoBehaviour
 {
+
+    Camera cam;
     private void Awake() {
+        cam = Camera.main;
         addCollider();
     }
 
@@ -12,8 +15,6 @@ public class CameraCollisionBox : MonoBehaviour
         if (Camera.main == null) {
             Debug.LogError("No camera found");
         }
-
-        Camera cam = Camera.main;
 
         if (!cam.orthographic) {
             Debug.LogError("Set camera to orthographic");
