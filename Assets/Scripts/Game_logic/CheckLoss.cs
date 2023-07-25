@@ -12,7 +12,7 @@ public class CheckLoss
         // get size of boxes in Vector2(size_x, size_y)
         Vector2 boxLowerSize = boxLower.getSize();
         Vector2 boxUpperSize = boxUpper.getSize();
-        Debug.Log(boxLowerSize + " and " + boxUpperSize);
+        
         // get centre and world positions in Vector3
         Vector3 boxLowerPosition = boxLower.getCentre();
         Vector3 boxUpperPosition = boxUpper.getCentre();
@@ -24,7 +24,6 @@ public class CheckLoss
         float rightUpp = boxUpperPosition.x + (boxUpperSize.x / 2f);
 
         if (rightUpp < leftLow || rightLow < leftUpp) {
-            Debug.Log(rightUpp + " " + leftLow + ", " + rightLow + " " + leftUpp);;
             return true;
         } else {
             return false;
