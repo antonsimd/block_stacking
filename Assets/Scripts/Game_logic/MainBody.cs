@@ -17,21 +17,16 @@ public class MainBody : MonoBehaviour
     private Vector2 groundPostition = new Vector2(0, GROUND_Y_OFFSET);
     // instances of game objects
 
-    private GameObject box1Object;
-    private GameObject box2Object;
-    private GameObject box3Object;
-    private GameObject box4Object;
     private Box box1;
     private Box box2;
     private Box box3;
     private Box box4;
-    private GameObject ground;
+    private Ground ground;
     
     // draw the box before rendering the first frame, avoids lag
     private void Awake() {
-        box1Object = Instantiate(boxPrefab, boxInitialPosition, Quaternion.identity);
-        box1 = box1Object.GetComponent<Box>();
-        ground = Instantiate(groundPrefab, groundPostition, Quaternion.identity);
+        box1 = Box.createBox(boxPrefab, boxInitialPosition);
+        ground = Ground.createGround(groundPrefab, groundPostition);
     }
 
     // Update is called once per frame
@@ -45,39 +40,28 @@ public class MainBody : MonoBehaviour
         Vector2 position = new Vector2(0, y);
 
         if (box2 == null) {
-            box2Object = Instantiate(boxPrefab, position, Quaternion.identity);
-            box2 = box2Object.GetComponent<Box>();
+            box2 = Box.createBox(boxPrefab, position);
         } else if (box3 == null) {
-            box3Object = Instantiate(boxPrefab, position, Quaternion.identity);
-            box3 = box3Object.GetComponent<Box>();
+            box3 = Box.createBox(boxPrefab, position);
         } else if (box4 == null) {
             box1.moveBox(Vector3.down);
             box2.moveBox(Vector3.down);
             box3.moveBox(Vector3.down);
-            ground.GetComponent<Ground>().moveGround(Vector3.down);
+            ground.moveGround(Vector3.down);
 
-            box4Object = Instantiate(boxPrefab, position, Quaternion.identity);
-            box4 = box4Object.GetComponent<Box>();
-            Destroy(ground, 1);
+            box4 = Box.createBox(boxPrefab, position);
         } 
         
         else {
-            var tempObject = box1Object;
-            var temp = box1;
+            box1.moveBox(Vector3.down);
             box1 = box2;
-            box1Object = box2Object;
             box2 = box3;
-            box2Object = box3Object;
             box3 = box4;
-            box3Object = box4Object;
 
-            temp.moveBox(Vector3.down);
             box1.moveBox(Vector3.down);
             box2.moveBox(Vector3.down);
             box3.moveBox(Vector3.down);
-            box4Object = Instantiate(boxPrefab, position, Quaternion.identity);
-            box4 = box4Object.GetComponent<Box>();
-            Destroy(tempObject, 1);
+            box4 = Box.createBox(boxPrefab, position);
         }
     }
 
@@ -96,7 +80,8 @@ public class MainBody : MonoBehaviour
 
         if(!CheckLoss.checkLoss(box3, box2)) {
             Score.currentScore.addPoint();
-            int offset = score == 0 ? (int)box1.getSize().y + INITIAL_BOX_Y_OFFSET : 2 * (int)box1.getSize().y + INITIAL_BOX_Y_OFFSET;
+            int offset = score == 0 ? 
+                (int)box1.getSize().y + INITIAL_BOX_Y_OFFSET : 2 * (int)box1.getSize().y + INITIAL_BOX_Y_OFFSET;
             newBox(offset);
         }
     }

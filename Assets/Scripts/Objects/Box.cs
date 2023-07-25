@@ -7,8 +7,6 @@ public class Box : MonoBehaviour
 {
     const int SPEED = 2;
 
-    public static Box instance;
-
     private Rigidbody2D rigidbodyComponent;
     private BoxCollider2D boxCollider;
     private int direction;
@@ -18,12 +16,25 @@ public class Box : MonoBehaviour
     private Vector3 targetPosition;
     private Vector3 velocity = Vector3.zero;
     private float time = 0.05f;
+    private int boxHeightFromCentre;
+
+    // FIX IF NEEDED
+    private int cameraBottom = -5;
+
+    public static Box createBox(GameObject prefab, Vector2 position) {
+        var newObject = Instantiate(prefab, position, Quaternion.identity);
+        return newObject.GetComponent<Box>();
+    }
+
+    public void destroyBox() {
+        Destroy(gameObject);
+    }
 
     // Start is called before the first frame update
     private void Start() {
-        instance = this;
         rigidbodyComponent = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        boxHeightFromCentre = (int)getSize().y / 2;
 
         // random direction
         System.Random random = new System.Random();
@@ -33,11 +44,16 @@ public class Box : MonoBehaviour
 
     // stops the box's movement
     public void stopMovement() {
-        direction = 0;
+        this.direction = 0;
     }
 
     // called 100 times a second
     private void FixedUpdate() {
+        int top = (int)getCentre().y + boxHeightFromCentre;
+        if (top <= cameraBottom) {
+           destroyBox();
+        }
+
         rigidbodyComponent.velocity = movementVectorH * direction;
         if (movementVectorV != Vector3.zero) {
             var currentPosition = getCentre();
@@ -58,12 +74,12 @@ public class Box : MonoBehaviour
 
     // get Vector3 with the centre of the box
     public Vector3 getCentre() {
-        return transform.TransformPoint(boxCollider.offset);
+        return transform.position;
     }
 
     // get Vector2 with the dimentions of the box
     public Vector2 getSize() {
-        return instance.transform.localScale;
+        return this.transform.localScale;
     }
 
     public void moveBox(Vector3 direction) {
