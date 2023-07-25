@@ -10,8 +10,8 @@ public class CheckLoss
             return false;
         }
         // get size of boxes in Vector2(size_x, size_y)
-        Vector2 boxLowerSize = boxLower.getSize();
-        Vector2 boxUpperSize = boxUpper.getSize();
+        Vector3 boxLowerSize = boxLower.getSize();
+        Vector3 boxUpperSize = boxUpper.getSize();
         
         // get centre and world positions in Vector3
         Vector3 boxLowerPosition = boxLower.getCentre();

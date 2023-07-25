@@ -8,7 +8,6 @@ public class Box : MonoBehaviour
     const int SPEED = 2;
 
     private Rigidbody2D rigidbodyComponent;
-    private BoxCollider2D boxCollider;
     private int direction;
     private Vector2 movementVectorH;
     private Vector3 movementVectorV = Vector3.zero;
@@ -21,8 +20,9 @@ public class Box : MonoBehaviour
     // FIX IF NEEDED
     private int cameraBottom = -5;
 
-    public static Box createBox(GameObject prefab, Vector2 position) {
+    public static Box createBox(GameObject prefab, Vector2 position, Vector3 scale) {
         var newObject = Instantiate(prefab, position, Quaternion.identity);
+        newObject.transform.localScale = scale;
         return newObject.GetComponent<Box>();
     }
 
@@ -33,7 +33,6 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     private void Start() {
         rigidbodyComponent = GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<BoxCollider2D>();
         boxHeightFromCentre = (int)getSize().y / 2;
 
         // random direction
@@ -78,13 +77,47 @@ public class Box : MonoBehaviour
     }
 
     // get Vector2 with the dimentions of the box
-    public Vector2 getSize() {
-        return this.transform.localScale;
+    public Vector3 getSize() {
+        return transform.localScale;
     }
 
     public void moveBox(Vector3 direction) {
         movementVectorV = direction;
         initialPosition = getCentre();
         targetPosition = initialPosition + direction;
+    }
+
+    public void cutBox(Box boxLower) {
+        // get size of boxes in Vector2(size_x, size_y)
+        Vector3 boxLowerSize = boxLower.getSize();
+        Vector3 boxUpperSize = this.getSize();
+        
+        // get centre and world positions in Vector3
+        Vector3 boxLowerPosition = boxLower.getCentre();
+        Vector3 boxUpperPosition = this.getCentre();
+
+        // calculate left and right boundaries of both boxes based on centre and size
+        float leftLow = boxLowerPosition.x - (boxLowerSize.x / 2f);
+        float leftUpp = boxUpperPosition.x - (boxUpperSize.x / 2f);
+        float rightLow = boxLowerPosition.x + (boxLowerSize.x / 2f);
+        float rightUpp = boxUpperPosition.x + (boxUpperSize.x / 2f);
+
+        // if upper box is further to the left than lower box
+        if (leftLow > leftUpp) {
+            var difference = leftLow - leftUpp;
+
+            // shift upper box right and decrease the horizontal scale
+            transform.position += new Vector3(difference / 2, 0f, 0f);
+            transform.localScale -= new Vector3(difference, 0f, 0f);
+        }
+
+        // if upper box is further to the right than lower box
+        if (rightLow < rightUpp) {
+            var difference = rightUpp - rightLow;
+
+            // shift upper box right and decrease the horizontal scale
+            transform.position -= new Vector3(difference / 2, 0f, 0f);
+            transform.localScale -= new Vector3(difference, 0f, 0f);
+        }
     }
 }
