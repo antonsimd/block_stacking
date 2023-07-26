@@ -8,7 +8,7 @@ public class Box : MonoBehaviour
     const int SPEED = 2;
     const int LEFT = 1;
     const int RIGHT = -1;
-    const float CUTAWAY_POSITION = -3;
+    const float CUTAWAY_POSITION = -3.5f;
     const float CUTAWAY_OFFSET = 0.5f;
 
     Rigidbody2D rigidbodyComponent;
@@ -116,7 +116,9 @@ public class Box : MonoBehaviour
 
             // create box cutaway on the left
             var positionX = leftLow - (difference / 2);
-            var positionVector = new Vector2(positionX, boxUpperPosition.y);
+            var positionY = boxUpperPosition.y < CUTAWAY_OFFSET ? boxUpperPosition.y : boxUpperPosition.y - boxUpperSize.y;
+
+            var positionVector = new Vector2(positionX, positionY);
             var cutawayScale = new Vector3(difference, 1, 1);
             BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale, LEFT);
         }
@@ -131,8 +133,7 @@ public class Box : MonoBehaviour
 
             // create box cutaway on the right
             var positionX = rightLow + (difference / 2);
-
-            var positionY = boxUpperPosition.y < CUTAWAY_POSITION ? boxUpperPosition.y : boxUpperPosition.y - CUTAWAY_OFFSET;
+            var positionY = boxUpperPosition.y < CUTAWAY_OFFSET ? boxUpperPosition.y : boxUpperPosition.y - boxUpperSize.y;
 
             var positionVector = new Vector2(positionX, positionY);
             var cutawayScale = new Vector3(difference, 1, 1);

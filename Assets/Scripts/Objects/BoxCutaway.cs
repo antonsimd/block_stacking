@@ -31,7 +31,6 @@ public class BoxCutaway : MonoBehaviour
     }
 
     public static BoxCutaway createBoxCutaway(GameObject prefab, Vector2 position, Vector3 scale, int direction) {
-        position.y -= 0.5f;
         var newObject = Instantiate(prefab, position, Quaternion.identity);
         newObject.transform.localScale = scale;
 
@@ -47,7 +46,6 @@ public class BoxCutaway : MonoBehaviour
         speed *= - 1 * direction;
     }
 
-    // Start is called before the first frame update
     void FixedUpdate() {
 
         spriteRenderer.color -= opacityChange;

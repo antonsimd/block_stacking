@@ -41,7 +41,7 @@ public class MainBody : MonoBehaviour
     }
 
     void newBox(float y) {
-        Vector2 position = new Vector2(0, y);
+        Vector2 position = new Vector2(1, y);
 
         if (box2 == null) {
             box2 = Box.createBox(boxPrefab, position, box1.getSize());
