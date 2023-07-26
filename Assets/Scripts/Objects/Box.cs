@@ -6,6 +6,8 @@ using System;
 public class Box : MonoBehaviour
 {
     const int SPEED = 2;
+    const int LEFT = 1;
+    const int RIGHT = -1;
 
     Rigidbody2D rigidbodyComponent;
     int direction;
@@ -114,7 +116,7 @@ public class Box : MonoBehaviour
             var positionX = leftLow - (difference / 2);
             var positionVector = new Vector2(positionX, boxUpperPosition.y);
             var cutawayScale = new Vector3(difference, 1, 1);
-            BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale);
+            BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale, LEFT);
         }
 
         // if upper box is further to the right than lower box
@@ -129,7 +131,7 @@ public class Box : MonoBehaviour
             var positionX = rightLow + (difference / 2);
             var positionVector = new Vector2(positionX, boxUpperPosition.y);
             var cutawayScale = new Vector3(difference, 1, 1);
-            BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale);
+            BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale, RIGHT);
         }
     }
 }

@@ -5,19 +5,32 @@ using UnityEngine;
 public class BoxCutaway : MonoBehaviour
 {
 
-    int cameraBottom = -6;
-    Color opacityChange = new Color(0,0,0,0.035f);
+    const int CAMERA_BOTTOM = -6;
+    const int LEFT = 1;
+    const int RIGHT = -1;
 
+    float rotation = 0.1f;
+
+    Color opacityChange = new Color(0, 0, 0, 0.035f);
+    Vector3 rotationVector;
     SpriteRenderer spriteRenderer;
 
     void Start () {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        rotationVector = new Vector3(0, 0, rotation);
     }
 
-    public static BoxCutaway createBoxCutaway(GameObject prefab, Vector2 position, Vector3 scale) {
+    public static BoxCutaway createBoxCutaway(GameObject prefab, Vector2 position, Vector3 scale, int direction) {
         var newObject = Instantiate(prefab, position, Quaternion.identity);
         newObject.transform.localScale = scale;
-        return newObject.GetComponent<BoxCutaway>();
+
+        var component = newObject.GetComponent<BoxCutaway>();
+        component.setDirection(direction);
+        return component;
+    }
+
+    public void setDirection(int direction) {
+        rotation *= direction;
     }
 
     // Start is called before the first frame update
@@ -25,7 +38,9 @@ public class BoxCutaway : MonoBehaviour
 
         spriteRenderer.color -= opacityChange;
 
-        if (transform.position.y < cameraBottom) {
+        transform.Rotate(rotationVector, Space.Self);
+
+        if (transform.position.y < CAMERA_BOTTOM) {
             Destroy(gameObject);
         }
     }
