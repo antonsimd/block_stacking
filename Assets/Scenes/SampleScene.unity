@@ -271,6 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxPrefab: {fileID: 9042616465014526006, guid: d8e8f7694bce6ef4d87505b4ee8c6061, type: 3}
   groundPrefab: {fileID: 7124440492528510097, guid: 0eed2bad85371a4afafe08192607ad1c, type: 3}
+  boxCutawayPrefab: {fileID: 9042616465014526006, guid: 19f3391525fb727669b7a715d07ffe75, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

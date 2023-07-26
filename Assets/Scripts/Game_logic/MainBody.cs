@@ -13,6 +13,7 @@ public class MainBody : MonoBehaviour
     // PUBLIC - prefabs
     public GameObject boxPrefab;
     public GameObject groundPrefab;
+    public GameObject boxCutawayPrefab;
 
     // box position offsets
     Vector2 boxInitialPosition = new Vector2(0, INITIAL_BOX_Y_OFFSET);
@@ -101,7 +102,7 @@ public class MainBody : MonoBehaviour
         Score.currentScore.addPoint();
 
         if (boxUpper != null && boxLower != null) {
-            boxUpper.cutBox(boxLower);
+            boxUpper.cutBox(boxLower, boxCutawayPrefab);
         }
 
         float offset = score < BOXES_MOVE_DOWN ? 
