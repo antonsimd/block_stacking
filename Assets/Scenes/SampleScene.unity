@@ -271,6 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxPrefab: {fileID: 9042616465014526006, guid: d8e8f7694bce6ef4d87505b4ee8c6061, type: 3}
   groundPrefab: {fileID: 7124440492528510097, guid: 0eed2bad85371a4afafe08192607ad1c, type: 3}
+  boxCutawayPrefab: {fileID: 9042616465014526006, guid: 19f3391525fb727669b7a715d07ffe75, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +524,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -70}
+  m_AnchoredPosition: {x: 0, y: -110}
   m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &631608040

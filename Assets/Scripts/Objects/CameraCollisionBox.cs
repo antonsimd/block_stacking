@@ -5,9 +5,12 @@ using UnityEngine;
 public class CameraCollisionBox : MonoBehaviour
 {
 
+    public static CameraCollisionBox gameView;
+
     Camera cam;
     void Awake() {
         cam = Camera.main;
+        gameView = this;
         addCollider();
     }
 
@@ -33,5 +36,9 @@ public class CameraCollisionBox : MonoBehaviour
         // create a border for the edge collider
         Vector2[] edgePoints = new[] { leftBottom, leftTop, rightTop, rightBottom, leftBottom };
         edgeCollider.points = edgePoints;
+    }
+
+    public Vector2 getDimensions() {
+        return new Vector2(cam.pixelWidth, cam.pixelHeight);
     }
 }

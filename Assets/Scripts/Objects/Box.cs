@@ -6,6 +6,10 @@ using System;
 public class Box : MonoBehaviour
 {
     const int SPEED = 2;
+    const int LEFT = 1;
+    const int RIGHT = -1;
+    const float CUTAWAY_POSITION = -3.5f;
+    const float CUTAWAY_OFFSET = 0.5f;
 
     Rigidbody2D rigidbodyComponent;
     int direction;
@@ -26,7 +30,7 @@ public class Box : MonoBehaviour
         return newObject.GetComponent<Box>();
     }
 
-    public void destroyBox() {
+    void destroyBox() {
         Destroy(gameObject);
     }
 
@@ -87,7 +91,7 @@ public class Box : MonoBehaviour
         targetPosition = initialPosition + direction;
     }
 
-    public void cutBox(Box boxLower) {
+    public void cutBox(Box boxLower, GameObject cutawayPrefab) {
         // get size of boxes in Vector2(size_x, size_y)
         Vector3 boxLowerSize = boxLower.getSize();
         Vector3 boxUpperSize = this.getSize();
@@ -109,6 +113,14 @@ public class Box : MonoBehaviour
             // shift upper box right and decrease the horizontal scale
             transform.position += new Vector3(difference / 2, 0f, 0f);
             transform.localScale -= new Vector3(difference, 0f, 0f);
+
+            // create box cutaway on the left
+            var positionX = leftLow - (difference / 2);
+            var positionY = boxUpperPosition.y < CUTAWAY_OFFSET ? boxUpperPosition.y : boxUpperPosition.y - boxUpperSize.y;
+
+            var positionVector = new Vector2(positionX, positionY);
+            var cutawayScale = new Vector3(difference, 1, 1);
+            BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale, LEFT);
         }
 
         // if upper box is further to the right than lower box
@@ -118,6 +130,14 @@ public class Box : MonoBehaviour
             // shift upper box right and decrease the horizontal scale
             transform.position -= new Vector3(difference / 2, 0f, 0f);
             transform.localScale -= new Vector3(difference, 0f, 0f);
+
+            // create box cutaway on the right
+            var positionX = rightLow + (difference / 2);
+            var positionY = boxUpperPosition.y < CUTAWAY_OFFSET ? boxUpperPosition.y : boxUpperPosition.y - boxUpperSize.y;
+
+            var positionVector = new Vector2(positionX, positionY);
+            var cutawayScale = new Vector3(difference, 1, 1);
+            BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale, RIGHT);
         }
     }
 }
