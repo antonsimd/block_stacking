@@ -23,9 +23,13 @@ public class Box : MonoBehaviour
 
     // FIX IF NEEDED
     int cameraBottom = -5;
+    public static Color boxColor = new Color(255, 255, 0);
 
     public static Box createBox(GameObject prefab, Vector2 position, Vector3 scale) {
         var newObject = Instantiate(prefab, position, Quaternion.identity);
+        var spriteRenderer = newObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.color = boxColor;
+        boxColor = new Color(255, 0, 0);
         newObject.transform.localScale = scale;
         return newObject.GetComponent<Box>();
     }
