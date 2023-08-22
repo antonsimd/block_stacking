@@ -23,9 +23,9 @@ public class Box : MonoBehaviour
 
     // FIX IF NEEDED
     int cameraBottom = -5;
-    public static Color boxColor = new Color(1f, 1f, 0f, 1f);
-    public static Color colorChange = new Color(51/255f, 51/255f, 51/255f, 0f);
-    public static Color colorVector = new Color(0f, 0f, 1f, 0f);
+    // public static Color boxColor = new Color(1f, 1f, 0f, 1f);
+    // public static Color colorChange = new Color(51/255f, 51/255f, 51/255f, 0f);
+    // public static Color colorVector = new Color(0f, 0f, 1f, 0f);
 
     public static Box createBox(GameObject prefab, Vector2 position, Vector3 scale) {
         var newObject = Instantiate(prefab, position, Quaternion.identity);
@@ -41,21 +41,21 @@ public class Box : MonoBehaviour
         return script;
     }
 
-    public void updateColorVector() {
-        if (boxColor.r > 0 && boxColor.g > 0) {
-            Box.colorVector = new Color(-1f, 0f, 0f, 0f);
-        } else if (boxColor.g > 0 && boxColor.r <= 0 && boxColor.b <= 0) {
-            Box.colorVector = new Color(0f, 0f, 1f, 0f);
-        } else if (boxColor.g > 0 && boxColor.b > 0) {
-            Box.colorVector = new Color(0f, -1f, 0f, 0f);
-        } else if (boxColor.b > 0 && boxColor.r <= 0 && boxColor.g <= 0) {
-            Box.colorVector = new Color(1f, 0f, 0f, 0f);
-        } else if (boxColor.r > 0 && boxColor.b > 0) {
-            Box.colorVector = new Color(0f, 0f, -1f, 0f);
-        } else if (boxColor.r > 0 && boxColor.b <= 0 && boxColor.g <= 0) {
-            Box.colorVector = new Color(0f, 1f, 0f, 0f);
-        }
-    }
+    // public void updateColorVector() {
+    //     if (boxColor.r > 0 && boxColor.g > 0) {
+    //         Box.colorVector = new Color(-1f, 0f, 0f, 0f);
+    //     } else if (boxColor.g > 0 && boxColor.r <= 0 && boxColor.b <= 0) {
+    //         Box.colorVector = new Color(0f, 0f, 1f, 0f);
+    //     } else if (boxColor.g > 0 && boxColor.b > 0) {
+    //         Box.colorVector = new Color(0f, -1f, 0f, 0f);
+    //     } else if (boxColor.b > 0 && boxColor.r <= 0 && boxColor.g <= 0) {
+    //         Box.colorVector = new Color(1f, 0f, 0f, 0f);
+    //     } else if (boxColor.r > 0 && boxColor.b > 0) {
+    //         Box.colorVector = new Color(0f, 0f, -1f, 0f);
+    //     } else if (boxColor.r > 0 && boxColor.b <= 0 && boxColor.g <= 0) {
+    //         Box.colorVector = new Color(0f, 1f, 0f, 0f);
+    //     }
+    // }
 
     void destroyBox() {
         Destroy(gameObject);
