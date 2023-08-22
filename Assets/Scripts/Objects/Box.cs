@@ -30,13 +30,13 @@ public class Box : MonoBehaviour
     public static Box createBox(GameObject prefab, Vector2 position, Vector3 scale) {
         var newObject = Instantiate(prefab, position, Quaternion.identity);
         var spriteRenderer = newObject.GetComponent<SpriteRenderer>();
-        spriteRenderer.color = boxColor;
-        Box.boxColor += colorChange * colorVector;
+        // spriteRenderer.color = boxColor;
+        // Box.boxColor += colorChange * colorVector;
         var script = newObject.GetComponent<Box>();
 
-        if (boxColor.r >= 1 || boxColor.g >= 1 || boxColor.b >= 1) {
-            script.updateColorVector();
-        }
+        // if (boxColor.r >= 1 || boxColor.g >= 1 || boxColor.b >= 1) {
+        //     script.updateColorVector();
+        // }
         newObject.transform.localScale = scale;
         return script;
     }
