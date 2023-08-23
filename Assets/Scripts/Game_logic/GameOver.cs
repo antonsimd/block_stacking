@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class GameOver : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static void gameOver() {
+        int newScore = Score.currentScore.getScore();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Update high score if needed
+        if (newScore > PlayerPrefs.GetInt(MainMenu.highScoreKey)) {
+            PlayerPrefs.SetInt(MainMenu.highScoreKey, newScore);
+            PlayerPrefs.Save();
+        }
     }
 }
