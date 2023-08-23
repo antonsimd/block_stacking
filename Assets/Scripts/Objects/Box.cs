@@ -23,6 +23,8 @@ public class Box : MonoBehaviour
 
     // FIX IF NEEDED
     int cameraBottom = -5;
+
+    public static int boxCount = 0;
     // public static Color boxColor = new Color(1f, 1f, 0f, 1f);
     // public static Color colorChange = new Color(51/255f, 51/255f, 51/255f, 0f);
     // public static Color colorVector = new Color(0f, 0f, 1f, 0f);
@@ -30,32 +32,13 @@ public class Box : MonoBehaviour
     public static Box createBox(GameObject prefab, Vector2 position, Vector3 scale) {
         var newObject = Instantiate(prefab, position, Quaternion.identity);
         var spriteRenderer = newObject.GetComponent<SpriteRenderer>();
-        // spriteRenderer.color = boxColor;
-        // Box.boxColor += colorChange * colorVector;
         var script = newObject.GetComponent<Box>();
 
-        // if (boxColor.r >= 1 || boxColor.g >= 1 || boxColor.b >= 1) {
-        //     script.updateColorVector();
-        // }
         newObject.transform.localScale = scale;
+
+        Box.boxCount++;
         return script;
     }
-
-    // public void updateColorVector() {
-    //     if (boxColor.r > 0 && boxColor.g > 0) {
-    //         Box.colorVector = new Color(-1f, 0f, 0f, 0f);
-    //     } else if (boxColor.g > 0 && boxColor.r <= 0 && boxColor.b <= 0) {
-    //         Box.colorVector = new Color(0f, 0f, 1f, 0f);
-    //     } else if (boxColor.g > 0 && boxColor.b > 0) {
-    //         Box.colorVector = new Color(0f, -1f, 0f, 0f);
-    //     } else if (boxColor.b > 0 && boxColor.r <= 0 && boxColor.g <= 0) {
-    //         Box.colorVector = new Color(1f, 0f, 0f, 0f);
-    //     } else if (boxColor.r > 0 && boxColor.b > 0) {
-    //         Box.colorVector = new Color(0f, 0f, -1f, 0f);
-    //     } else if (boxColor.r > 0 && boxColor.b <= 0 && boxColor.g <= 0) {
-    //         Box.colorVector = new Color(0f, 1f, 0f, 0f);
-    //     }
-    // }
 
     void destroyBox() {
         Destroy(gameObject);
@@ -69,6 +52,7 @@ public class Box : MonoBehaviour
         // random direction
         System.Random random = new System.Random();
         direction = random.Next(0, 2) == 0 ? -1 : 1;
+        direction = Box.boxCount == 1 ? 0 : direction;
         movementVectorH = new Vector2(SPEED, 0);
     }
 
