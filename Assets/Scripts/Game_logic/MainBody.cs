@@ -7,13 +7,14 @@ public class MainBody : MonoBehaviour
     // CONSTANTS
     const int INITIAL_BOX_Y_OFFSET = -4;
     const int GROUND_Y_OFFSET = -5;
-    const int BOXES_MOVE_DOWN = 2;
+    const int BOXES_MOVE_DOWN = 1;
     const float BOX_SPREAD = 0.01f;
     
     // PUBLIC - prefabs
     public GameObject boxPrefab;
     public GameObject groundPrefab;
     public GameObject boxCutawayPrefab;
+    public GameObject gameOverPrefab;
 
     // box position offsets
     Vector2 boxInitialPosition = new Vector2(0, INITIAL_BOX_Y_OFFSET);
@@ -26,16 +27,14 @@ public class MainBody : MonoBehaviour
     Box box3;
     Box box4;
     Ground ground;
-    
     // draw the box before rendering the first frame, avoids lag
     void Awake() {
         box1 = Box.createBox(boxPrefab, boxInitialPosition, initialBoxScale);
         ground = Ground.createGround(groundPrefab, groundPostition);
     }
 
-    // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space) || box2 == null) {
             spaceKeyPressed();
         }
     }
