@@ -14,6 +14,7 @@ public class MainBody : MonoBehaviour
     public GameObject boxPrefab;
     public GameObject groundPrefab;
     public GameObject boxCutawayPrefab;
+    public GameObject gameOverPrefab;
 
     // box position offsets
     Vector2 boxInitialPosition = new Vector2(0, INITIAL_BOX_Y_OFFSET);
