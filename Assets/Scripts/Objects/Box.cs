@@ -29,8 +29,8 @@ public class Box : MonoBehaviour
     // public static Color colorChange = new Color(51/255f, 51/255f, 51/255f, 0f);
     // public static Color colorVector = new Color(0f, 0f, 1f, 0f);
 
-    public static Box createBox(GameObject prefab, Vector2 position, Vector3 scale) {
-        var newObject = Instantiate(prefab, position, Quaternion.identity);
+    public static Box createBox(Vector2 position, Vector3 scale) {
+        var newObject = Instantiate(MainBody.mainBody.boxPrefab, position, Quaternion.identity);
         var spriteRenderer = newObject.GetComponent<SpriteRenderer>();
         var script = newObject.GetComponent<Box>();
 
@@ -102,7 +102,7 @@ public class Box : MonoBehaviour
         targetPosition = initialPosition + direction;
     }
 
-    public void cutBox(Box boxLower, GameObject cutawayPrefab) {
+    public void cutBox(Box boxLower) {
         // get size of boxes in Vector2(size_x, size_y)
         Vector3 boxLowerSize = boxLower.getSize();
         Vector3 boxUpperSize = this.getSize();
@@ -131,7 +131,7 @@ public class Box : MonoBehaviour
 
             var positionVector = new Vector2(positionX, positionY);
             var cutawayScale = new Vector3(difference, 1, 1);
-            BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale, LEFT);
+            BoxCutaway.createBoxCutaway(positionVector, cutawayScale, LEFT);
         }
 
         // if upper box is further to the right than lower box
@@ -148,7 +148,7 @@ public class Box : MonoBehaviour
 
             var positionVector = new Vector2(positionX, positionY);
             var cutawayScale = new Vector3(difference, 1, 1);
-            BoxCutaway.createBoxCutaway(cutawayPrefab, positionVector, cutawayScale, RIGHT);
+            BoxCutaway.createBoxCutaway(positionVector, cutawayScale, RIGHT);
         }
     }
 }

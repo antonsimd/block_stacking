@@ -14,8 +14,8 @@ public class Ground : MonoBehaviour
     // FIX IF NEEDED
     int cameraBottom = -5;
 
-    public static Ground createGround(GameObject prefab, Vector2 position) {
-        var newObject = Instantiate(prefab, position, Quaternion.identity);
+    public static Ground createGround(Vector2 position) {
+        var newObject = Instantiate(MainBody.mainBody.groundPrefab, position, Quaternion.identity);
         return newObject.GetComponent<Ground>();
     }
 
