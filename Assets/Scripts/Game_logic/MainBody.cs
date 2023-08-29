@@ -15,6 +15,7 @@ public class MainBody : MonoBehaviour
     public GameObject groundPrefab;
     public GameObject boxCutawayPrefab;
     public GameObject gameOverPrefab;
+    public static MainBody mainBody;
 
     // box position offsets
     Vector2 boxInitialPosition = new Vector2(0, INITIAL_BOX_Y_OFFSET);
@@ -29,8 +30,9 @@ public class MainBody : MonoBehaviour
     Ground ground;
     // draw the box before rendering the first frame, avoids lag
     void Awake() {
-        box1 = Box.createBox(boxPrefab, boxInitialPosition, initialBoxScale);
-        ground = Ground.createGround(groundPrefab, groundPostition);
+        mainBody = this;
+        box1 = Box.createBox(boxInitialPosition, initialBoxScale);
+        ground = Ground.createGround(groundPostition);
     }
 
     void Update() {
@@ -43,16 +45,16 @@ public class MainBody : MonoBehaviour
         Vector2 position = new Vector2(1, y);
 
         if (box2 == null) {
-            box2 = Box.createBox(boxPrefab, position, box1.getSize());
+            box2 = Box.createBox(position, box1.getSize());
         } else if (box3 == null) {
-            box3 = Box.createBox(boxPrefab, position, box2.getSize());
+            box3 = Box.createBox(position, box2.getSize());
         } else if (box4 == null) {
             box1.moveBox(Vector3.down);
             box2.moveBox(Vector3.down);
             box3.moveBox(Vector3.down);
             ground.moveGround(Vector3.down);
 
-            box4 = Box.createBox(boxPrefab, position, box3.getSize());
+            box4 = Box.createBox(position, box3.getSize());
         } else {
             box1.moveBox(Vector3.down);
             box1 = box2;
@@ -62,7 +64,7 @@ public class MainBody : MonoBehaviour
             box1.moveBox(Vector3.down);
             box2.moveBox(Vector3.down);
             box3.moveBox(Vector3.down);
-            box4 = Box.createBox(boxPrefab, position, box4.getSize());
+            box4 = Box.createBox(position, box4.getSize());
         }
     }
 
@@ -101,7 +103,7 @@ public class MainBody : MonoBehaviour
         Score.currentScore.addPoint();
 
         if (boxUpper != null && boxLower != null) {
-            boxUpper.cutBox(boxLower, boxCutawayPrefab);
+            boxUpper.cutBox(boxLower);
         }
 
         float offset = score < BOXES_MOVE_DOWN ? 

@@ -30,8 +30,8 @@ public class BoxCutaway : MonoBehaviour
         rigidbodyComponent.velocity += new Vector2(speed, 0);
     }
 
-    public static BoxCutaway createBoxCutaway(GameObject prefab, Vector2 position, Vector3 scale, int direction) {
-        var newObject = Instantiate(prefab, position, Quaternion.identity);
+    public static BoxCutaway createBoxCutaway(Vector2 position, Vector3 scale, int direction) {
+        var newObject = Instantiate(MainBody.mainBody.boxCutawayPrefab, position, Quaternion.identity);
         newObject.transform.localScale = scale;
 
         var component = newObject.GetComponent<BoxCutaway>();
