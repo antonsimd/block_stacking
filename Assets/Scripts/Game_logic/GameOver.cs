@@ -47,6 +47,7 @@ public class GameOver : MonoBehaviour
     }
     
     public void returnToMenu() {
+        Cloud.clearClouds();
         SceneManager.LoadScene("MainMenu");
     }
 

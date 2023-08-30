@@ -20,6 +20,11 @@ public class Cloud : MonoBehaviour
     Vector3 MOVEMENT_AMOUNT = new Vector3(0, -0.25f, 0);
     float time = 0.05f;
 
+
+    public static void clearClouds() {
+        clouds.Clear();
+    }
+
     // Move all clouds down and create a new cloud if with a given change
     public static void moveUp() {
         if (Score.currentScore.getScore() > SPAWN_CLOUDS) {
@@ -69,6 +74,7 @@ public class Cloud : MonoBehaviour
         initialPosition = getCentre();
         targetPosition = initialPosition + MOVEMENT_AMOUNT;
     }
+
 
     void destroyCloud() {
         Destroy(gameObject);
