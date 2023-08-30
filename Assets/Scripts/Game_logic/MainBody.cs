@@ -15,6 +15,7 @@ public class MainBody : MonoBehaviour
     public GameObject groundPrefab;
     public GameObject boxCutawayPrefab;
     public GameObject gameOverPrefab;
+    public GameObject cloudPrefab;
     public static MainBody mainBody;
 
     // box position offsets
@@ -96,6 +97,8 @@ public class MainBody : MonoBehaviour
                 continueGame(box4, box3);
             }
         }
+
+        Cloud.moveUp();
     }
 
     void continueGame(Box boxUpper, Box boxLower) {

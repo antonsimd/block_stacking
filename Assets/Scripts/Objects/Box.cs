@@ -25,9 +25,6 @@ public class Box : MonoBehaviour
     int cameraBottom = -5;
 
     public static int boxCount = 0;
-    // public static Color boxColor = new Color(1f, 1f, 0f, 1f);
-    // public static Color colorChange = new Color(51/255f, 51/255f, 51/255f, 0f);
-    // public static Color colorVector = new Color(0f, 0f, 1f, 0f);
 
     public static Box createBox(Vector2 position, Vector3 scale) {
         var newObject = Instantiate(MainBody.mainBody.boxPrefab, position, Quaternion.identity);
