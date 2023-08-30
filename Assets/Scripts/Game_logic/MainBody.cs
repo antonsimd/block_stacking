@@ -37,7 +37,7 @@ public class MainBody : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space) || box2 == null) {
+        if (Input.touchCount > 0 || box2 == null) {
             spaceKeyPressed();
         }
     }
