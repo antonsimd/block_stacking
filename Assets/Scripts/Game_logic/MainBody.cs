@@ -37,7 +37,13 @@ public class MainBody : MonoBehaviour
     }
 
     void Update() {
-        if (Input.touchCount > 0 || box2 == null) {
+        if (Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began) {
+                spaceKeyPressed();
+            }
+        } else if (box2 == null) {
             spaceKeyPressed();
         }
     }
