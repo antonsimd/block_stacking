@@ -5,6 +5,7 @@ using System;
 
 public class BoxRevision : MonoBehaviour
 {
+    /*
     // Constants
     const int SPEED = 2;
     const int INITIAL_BOX_Y_OFFSET = -4;
@@ -12,7 +13,7 @@ public class BoxRevision : MonoBehaviour
     const int RIGHT = -1;
     const float CUTAWAY_OFFSET = 0.5f;
     const int BOXES_MOVE_DOWN = 4;
-    const float ySpeed = 2f
+    const float ySpeed = 2f;
 
     // Game Object and game related
     Rigidbody2D rigidbodyComponent;
@@ -39,7 +40,7 @@ public class BoxRevision : MonoBehaviour
 
     void Update() {
         if (moveRequired && transform.position != targetPosition) {
-            transform.position = Vector3.MoveTowards(transform.position,, targetPosition, ySpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, ySpeed * Time.deltaTime);
         } else {
             moveRequired == false;
         }
@@ -79,7 +80,7 @@ public class BoxRevision : MonoBehaviour
 
     void moveBox() {
         var initialPosition = getCentre();
-        targetPosition = initialPosition - getSize().y;
+        targetPosition = initialPosition.y - getSize().y;
         moveRequired = true;
     }
 
@@ -100,4 +101,5 @@ public class BoxRevision : MonoBehaviour
     public Vector3 getSize() {
         return transform.localScale;
     }
+*/
 }
