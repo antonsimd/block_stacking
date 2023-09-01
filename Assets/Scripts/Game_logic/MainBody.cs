@@ -22,8 +22,12 @@ public class MainBody : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            buttonPressed();
+        if (Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began) {
+                buttonPressed();
+            }
         }
     }
 

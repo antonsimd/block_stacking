@@ -33,8 +33,12 @@ public class Ground : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space) && Score.currentScore.getScore() >= MOVE_DOWN) {
-            moveGround(Vector3.down);
+        if (Input.touchCount > 0 && Score.currentScore.getScore() >= MOVE_DOWN) {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began) {
+                moveGround(Vector3.down);
+            }
         }
     }
 
