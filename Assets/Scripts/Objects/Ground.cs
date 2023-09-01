@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
+
+    const int MOVE_DOWN = 3;
+    const int GROUND_Y_OFFSET = -5;
     Vector3 movementVector = Vector3.zero;
     Vector3 velocity = Vector3.zero;
     Vector3 initialPosition;
@@ -14,9 +17,10 @@ public class Ground : MonoBehaviour
     // FIX IF NEEDED
     int cameraBottom = -5;
 
-    public static Ground createGround(Vector2 position) {
-        var newObject = Instantiate(MainBody.mainBody.groundPrefab, position, Quaternion.identity);
-        return newObject.GetComponent<Ground>();
+    static Vector2 groundPosition = new Vector2(0, GROUND_Y_OFFSET);
+
+    public static void createGround() {
+        var newObject = Instantiate(MainBody.mainBody.groundPrefab, groundPosition, Quaternion.identity);
     }
 
     void destroyGround() {
@@ -26,6 +30,16 @@ public class Ground : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
+    }
+
+    void Update() {
+        if (Input.touchCount > 0 && Score.currentScore.getScore() >= MOVE_DOWN) {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began) {
+                moveGround(Vector3.down);
+            }
+        }
     }
 
     // Update is called once per frame

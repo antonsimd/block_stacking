@@ -6,8 +6,6 @@ public class BoxCutaway : MonoBehaviour
 {
 
     const int CAMERA_BOTTOM = -6;
-    const int LEFT = 1;
-    const int RIGHT = -1;
 
     float rotation = 0.2f;
     float speed = 0.35f;
@@ -40,14 +38,13 @@ public class BoxCutaway : MonoBehaviour
     }
 
     public void setDirection(int direction) {
-        rotation *= direction;
+        rotation *= -1 * direction;
 
         // direction is opposite to rotation;
-        speed *= - 1 * direction;
+        speed *= direction;
     }
 
     void FixedUpdate() {
-
         spriteRenderer.color -= opacityChange;
 
         transform.Rotate(rotationVector, Space.Self);

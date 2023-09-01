@@ -5,108 +5,175 @@ using System;
 
 public class Box : MonoBehaviour
 {
-    const int SPEED = 2;
-    const int LEFT = 1;
-    const int RIGHT = -1;
-    const float CUTAWAY_POSITION = -3.5f;
-    const float CUTAWAY_OFFSET = 0.5f;
-
-    Rigidbody2D rigidbodyComponent;
-    int direction;
-    Vector2 movementVectorH;
-    Vector3 movementVectorV = Vector3.zero;
-    Vector3 initialPosition;
-    Vector3 targetPosition;
-    Vector3 velocity = Vector3.zero;
-    float time = 0.05f;
-    int boxHeightFromCentre;
-
     // FIX IF NEEDED
-    int cameraBottom = -5;
+    static Vector4 cameraDimensions = new Vector4(-2.5f, 2.5f, -5f, 5f);
 
-    public static int boxCount = 0;
+    // Constants
+    const int SPEED = 300;
+    const int INITIAL_BOX_Y_OFFSET = -4;
+    const float CUTAWAY_OFFSET = 0.5f;
+    const int BOXES_MOVE_DOWN = 4;
+    const float ySpeed = 10f;
+    const int LEFT = -1;
+    const int RIGHT = 1;
 
-    public static Box createBox(Vector2 position, Vector3 scale) {
+    // List for storing all boxes on the screen
+    static List<Box> boxes = new List<Box>();
+    static int boxCount = 0;
+    static Vector2 boxInitialPosition = new Vector2(0, INITIAL_BOX_Y_OFFSET);
+    static Vector3 boxInitialScale = new Vector3(2.5f, 1f, 1f);
+    static System.Random random = new System.Random();
+
+    // Game object and game related
+    int direction;
+    bool moveRequired = false;
+    bool initialBox = false;
+    Vector3 targetPosition;
+    Vector2 movementVectorH = new Vector2(SPEED, 0);
+    Rigidbody2D rigidbodyComponent;
+
+    // Draw the first and second boxes on the screen, initialise game
+    // Adds the instantiated objects to boxes list
+    public static void drawInitialBox() {
+        var newObject = Instantiate(MainBody.mainBody.boxPrefab, boxInitialPosition, Quaternion.identity);
+        var script = newObject.GetComponent<Box>();
+
+        newObject.transform.localScale = boxInitialScale;
+
+        // Set initial box to true so it does not move
+        script.initialBox = true;
+        boxes.Add(script);
+        boxCount++;
+
+        var positionY = boxes[boxCount - 1].getCentre().y + boxes[boxCount - 1].getSize().y;
+        var newPositionVector = new Vector3(0, positionY, 0);
+
+        createBox(newPositionVector, boxInitialScale);
+    }
+
+    public static bool checkLoss() {
+        return CheckLoss.checkLoss(boxes[boxCount - 1], boxes[boxCount - 2]);
+    }
+
+    public static void clearBoxes() {
+        boxCount = 0;
+        boxes.Clear();
+    }
+    // Stop all boxes
+    public static void stopBoxes() {
+        foreach (Box box in boxes) {
+            box.stopMovement();
+        }
+    }
+    // Create a box cutaway and a new box after the space button has been pressed
+    public static void moveUp() {
+        int numElements = boxes.Count;
+        var lowerBox = boxes[boxCount - 1];
+        lowerBox.cutBox(boxes[boxCount - 2]);
+
+        // Stop movement of every single box
+        foreach (Box box in boxes) {
+            box.stopMovement();
+        }
+
+        if (boxCount < BOXES_MOVE_DOWN) {
+
+            // Create a box above the previous box
+            var positionY = lowerBox.getCentre().y + lowerBox.getSize().y;
+            var newPositionVector = new Vector3(0, positionY, 0);
+
+            createBox(newPositionVector, lowerBox.getSize());
+        } else {
+
+            // Move every box down and spawn the box at the same height as the previous box
+            foreach (Box box in boxes) {
+                box.moveDown();
+            }
+
+            var newPositionVector = new Vector3(0, lowerBox.getCentre().y, 0);
+            createBox(newPositionVector, lowerBox.getSize());
+        }
+    }
+
+    // Instantiate a box at a given position with a given scale
+    // Adds the instantiated object to boxes list
+    static void createBox(Vector3 position, Vector3 scale) {
         var newObject = Instantiate(MainBody.mainBody.boxPrefab, position, Quaternion.identity);
-        var spriteRenderer = newObject.GetComponent<SpriteRenderer>();
         var script = newObject.GetComponent<Box>();
 
         newObject.transform.localScale = scale;
 
-        Box.boxCount++;
-        return script;
+        boxes.Add(script);
+        boxCount++;
+    }
+
+    void Start() {
+        rigidbodyComponent = GetComponent<Rigidbody2D>();
+
+        // Random direction (left of right);
+        direction = random.Next(0, 2) == 0 ? LEFT : RIGHT;
+
+        // First box does not move
+        direction = initialBox == true ? 0 : direction;
+    }
+
+    void Update() {
+        if (getCentre().y < cameraDimensions.z) {
+            destroyBox();
+        }
+
+        // If a move is required and the box has not been moved down yet, move the box down
+        if (moveRequired && transform.position != targetPosition) {
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, ySpeed * Time.deltaTime);
+        } else {
+            moveRequired = false;
+        }
+
+        // Horizontal velocity of the box
+        rigidbodyComponent.velocity = movementVectorH * direction * Time.deltaTime;
+    }
+
+    void stopMovement() {
+        direction = 0;
+    }
+
+    // Set the target coordinates of a box move to a position boxSizeY below
+    void moveDown() {
+        var initialPosition = getCentre();
+        targetPosition = initialPosition - new Vector3(0, getSize().y, 0);
+        moveRequired = true;
     }
 
     void destroyBox() {
+        // Remove instance from boxes list
+        boxes.Remove(this);
+        boxCount--;
         Destroy(gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start() {
-        rigidbodyComponent = GetComponent<Rigidbody2D>();
-        boxHeightFromCentre = (int)getSize().y / 2;
-
-        // random direction
-        System.Random random = new System.Random();
-        direction = random.Next(0, 2) == 0 ? -1 : 1;
-        direction = Box.boxCount == 1 ? 0 : direction;
-        movementVectorH = new Vector2(SPEED, 0);
-    }
-
-    // called 100 times a second
-    void FixedUpdate() {
-        int top = (int)getCentre().y + boxHeightFromCentre;
-        if (top <= cameraBottom) {
-           destroyBox();
-        }
-
-        rigidbodyComponent.velocity = movementVectorH * direction;
-        if (movementVectorV != Vector3.zero) {
-            var currentPosition = getCentre();
-            if (currentPosition != targetPosition) {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, time);
-            } else {
-                movementVectorV = Vector3.zero;
-            }
-        }
-    }
-
-    // on collision with a wall reverse direction
     void OnTriggerEnter2D(Collider2D collision) {
+        // Reverse the direction on collision with camera
         if (collision.tag == "MainCamera") {
             direction *= -1;
         }
     }
 
-    // stops the box's movement
-    public void stopMovement() {
-        this.direction = 0;
-    }
-
-    // get Vector3 with the centre of the box
     public Vector3 getCentre() {
         return transform.position;
     }
 
-    // get Vector2 with the dimentions of the box
     public Vector3 getSize() {
         return transform.localScale;
     }
 
-    public void moveBox(Vector3 direction) {
-        movementVectorV = direction;
-        initialPosition = getCentre();
-        targetPosition = initialPosition + direction;
-    }
-
-    public void cutBox(Box boxLower) {
+    void cutBox(Box boxLower) {
         // get size of boxes in Vector2(size_x, size_y)
         Vector3 boxLowerSize = boxLower.getSize();
-        Vector3 boxUpperSize = this.getSize();
+        Vector3 boxUpperSize = getSize();
         
         // get centre and world positions in Vector3
         Vector3 boxLowerPosition = boxLower.getCentre();
-        Vector3 boxUpperPosition = this.getCentre();
+        Vector3 boxUpperPosition = getCentre();
 
         // calculate left and right boundaries of both boxes based on centre and size
         float leftLow = boxLowerPosition.x - (boxLowerSize.x / 2f);

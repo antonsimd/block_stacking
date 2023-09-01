@@ -9,7 +9,7 @@ public class Score : MonoBehaviour
     public static Score currentScore;
     public TextMeshProUGUI scoreText;
     
-    int score = -1;
+    int score = 0;
 
     void Awake() {
         currentScore = this;
@@ -26,7 +26,7 @@ public class Score : MonoBehaviour
     }
 
     public void addPoint() {
-        score ++;
+        score++;
         displayScore();
     }
 
