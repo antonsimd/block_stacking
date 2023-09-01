@@ -15,7 +15,7 @@ public class Ground : MonoBehaviour
     BoxCollider2D boxCollider;
 
     // FIX IF NEEDED
-    int cameraBottom = -5;
+    int cameraBottom = -7;
 
     static Vector2 groundPosition = new Vector2(0, GROUND_Y_OFFSET);
 

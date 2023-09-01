@@ -10,7 +10,7 @@ public class Box : MonoBehaviour
 
     // Constants
     const int SPEED = 300;
-    const int INITIAL_BOX_Y_OFFSET = -4;
+    const int INITIAL_BOX_Y_OFFSET = -3;
     const float CUTAWAY_OFFSET = 0.5f;
     const int BOXES_MOVE_DOWN = 4;
     const float ySpeed = 10f;
