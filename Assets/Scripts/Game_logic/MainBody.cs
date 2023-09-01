@@ -18,6 +18,7 @@ public class MainBody : MonoBehaviour
 
     void Start() {
         Box.drawInitialBox();
+        Ground.createGround();
     }
 
     void Update() {
