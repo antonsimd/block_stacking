@@ -9,7 +9,7 @@ public class Box : MonoBehaviour
     static Vector4 cameraDimensions = new Vector4(-2.5f, 2.5f, -5f, 5f);
 
     // Constants
-    const int SPEED = 300;
+    const int SPEED = 250;
     const int INITIAL_BOX_Y_OFFSET = -3;
     const float CUTAWAY_OFFSET = 0.5f;
     const int BOXES_MOVE_DOWN = 4;
