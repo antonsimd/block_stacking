@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+/*
 public class BoxRevision : MonoBehaviour
 {
-    /*
     // Constants
     const int SPEED = 2;
     const int INITIAL_BOX_Y_OFFSET = -4;
@@ -101,5 +100,6 @@ public class BoxRevision : MonoBehaviour
     public Vector3 getSize() {
         return transform.localScale;
     }
-*/
+
 }
+*/
