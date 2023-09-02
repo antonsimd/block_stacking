@@ -24,7 +24,6 @@ public class CheckLoss
         float rightUpp = boxUpperPosition.x + (boxUpperSize.x / 2f);
 
         if (rightUpp < leftLow || rightLow < leftUpp) {
-            GameOver.instance.gameOver();
             return true;
         } else {
             return false;
